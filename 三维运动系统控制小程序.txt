@@ -1,0 +1,132 @@
+#include <STC12C5A60S2.H>
+#include "stdio.h"
+#include "LCD1602.h"
+#include "key.h"
+#include "time.h"
+#include "motor.h"
+#include "control.h"
+void draw_A();
+void draw_B();
+void draw_C();
+unsigned char key;
+
+unsigned int flag1,flag2,flag3;
+extern unsigned char thh1,tll1;
+
+long x_step_date=0,y_step_date=0;
+
+void main()
+{
+    LCD_1602_Init();
+    Time_Init();
+    Motor_Init();
+    thh1 = 0xfe;
+    tll1 = 0x33;
+    while(1)
+    {
+        thh1 = 0xfe;
+        tll1 = 0x33;
+        
+        if(key==1)
+        {
+            XMotor_Dir_set(1,0,0);
+            XMotor_EN_set(1,0,0);
+        }
+        else if(key==2)
+        {
+            XMotor_Dir_set(0,0,0);
+            XMotor_EN_set(1,0,0);
+        }
+        else if(key==3)
+        {
+            XMotor_Dir_set(0,1,0);
+            XMotor_EN_set(0,1,0);
+        }
+        else if(key==4)
+        {
+            XMotor_Dir_set(0,0,0);
+            XMotor_EN_set(0,1,0);
+        }
+        else if(key==5)
+        {
+            XMotor_Dir_set(0,0,1);
+            XMotor_EN_set(0,0,1);
+        }
+        else if(key==6)
+        {
+            XMotor_Dir_set(0,0,0);
+            XMotor_EN_set(0,0,1);
+        }
+        else if(key==7)
+        {
+          draw_A();                //ÊéÐ´×ÖÄ¸A
+					Draw_Line2(0,0,0,-8000);    
+					draw_B();                //ÊéÐ´×ÖÄ¸B
+					Draw_Line2(0,0,0,-3200);
+					draw_C();                //ÊéÐ´×ÖÄ¸C
+        }
+        else if(key==8)
+        {
+            
+        }
+        else
+        {
+            XMotor_Dir_set(0,0,0);
+            XMotor_EN_set(0,0,0);
+        }
+        Write_1602_String("TOUCH KEY ",0X80); 
+    }
+}
+
+void draw_A(void)
+{
+     V_Move(-800);                           //Âä±Ê1ÀåÃ×
+	   Draw_Line2(0,0,1000,2000);              //»­×ó±ß
+	   Draw_Line2(1000,2000,2000,0);           //»­ÓÒ±ß
+	   V_Move(800);                             //Ìá±Ê1ÀåÃ×
+	   Draw_Line2(2000,0,1500,1000);           //½«±ÊÒÆ¶¯µ½ÓÒ±ßµÄÖÐ¼ä
+	   V_Move(-800);                           //Âä±Ê1ÀåÃ×
+	   Draw_Line2(1500,1000,500,1000);           //»­ÖÐ¼äÒ»±Ê
+	   V_Move(800);                             //Ìá±Ê1ÀåÃ×
+}
+void draw_B(void)
+{
+     V_Move(-800);                           //Âä±Ê1ÀåÃ×
+	   Draw_Circle1(1200,180,360);                //°ë¾¶£¬¿ªÊ¼½Ç¶È£¬½áÊø½Ç¶È
+	   Draw_Circle1(800,180,360);               //°ë¾¶£¬¿ªÊ¼½Ç¶È£¬½áÊø½Ç¶È
+	   Draw_Line2(0,0,0,-4800);                  		   
+	   V_Move(800);                             //Ìá±Ê1ÀåÃ×
+}
+void draw_C(void)
+{
+     V_Move(-800);                           //Âä±Ê1ÀåÃ×
+	   Draw_Circle1(800,-45,45);     //°ë¾¶£¬¿ªÊ¼½Ç¶È£¬½áÊø½Ç¶È   -45¶ÈÎª×óÏÂ·½£¬ÄæÊ±Õë¼ÆËã
+	   Draw_Circle1(1600,45,135);     //°ë¾¶£¬¿ªÊ¼½Ç¶È£¬½áÊø½Ç¶È   0¶ÈÎª×îÏÂ·½£¬ÄæÊ±Õë¼ÆËã
+	   Draw_Circle1(800,135,225);     //°ë¾¶£¬¿ªÊ¼½Ç¶È£¬½áÊø½Ç¶È   0¶ÈÎª×îÏÂ·½£¬ÄæÊ±Õë¼ÆËã
+	   V_Move(800);               	//Ìá±Ê1ÀåÃ×
+	  
+}
+void draw_L(void)
+{
+	V_Move(-800);
+	Drow_Line2(0,0,0,-4800);
+	Deow_Line2(0,-4800,2400,-4800);
+	V_Move(800);
+}
+/*void draw_G(void)
+{
+	   V_Move(-800);                          
+	   Draw_Circle1(800,-45,45);     
+	   Draw_Circle1(1600,45,135);     
+	   Draw_Circle1(800,135,225);
+  Drow_Line2()
+	   V_Move(800);
+}*/
+void drow_J(void)
+{
+	V_Move(-800);
+	Drow_Line2(0,0,2400,0);
+	Drow_Line2(2400,0,1200,0);
+	Drow_Line2(1200,0,1200,-4800);
+	Drow_Line2(1200,-4800,1000,-4500);
+}
